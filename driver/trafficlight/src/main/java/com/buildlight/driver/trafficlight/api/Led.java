@@ -1,4 +1,4 @@
-package com.buildlight.driver.trafficlight.driver;
+package com.buildlight.driver.trafficlight.api;
 
 /**
  * @author zutherb
@@ -14,7 +14,7 @@ public enum Led {
         this.address = address;
     }
 
-    byte getAddress() {
+    public byte getAddress() {
         return address;
     }
 

@@ -1,7 +1,12 @@
-package com.buildlight.driver.trafficlight.driver;
+package com.buildlight.driver.trafficlight.device.cleware;
 
+import com.buildlight.driver.trafficlight.api.Led;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLightException;
 import com.codeminders.hidapi.HIDDevice;
+import com.codeminders.hidapi.HIDDeviceNotFoundException;
 import com.codeminders.hidapi.HIDManager;
+
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +18,12 @@ import static java.lang.String.format;
 /**
  * @author zutherb
  */
-public class TrafficLightImpl implements TrafficLight {
+public class ClewareImpl implements TrafficLight {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrafficLightImpl.class);
+    private static final int VENDOR_ID = 0xD50;     //Cleware Vendor Id
+    private static final int PRODUCT_ID = 0x8;      //Traffic Light Product Id
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClewareImpl.class);
 
     private static final String SWITCH_ON_ERROR = "Led {} could not be switched on";
     private static final String SWITCH_OFF_ERROR = "Led {} could not be switched off";
@@ -23,9 +31,9 @@ public class TrafficLightImpl implements TrafficLight {
     private final HIDManager hidManager;
     private final HIDDevice hidDevice;
 
-    TrafficLightImpl(HIDManager hidManager, HIDDevice hidDevice) {
+    public ClewareImpl(HIDManager hidManager) throws IOException {
         this.hidManager = hidManager;
-        this.hidDevice = hidDevice;
+        this.hidDevice = hidManager.openById(VENDOR_ID, PRODUCT_ID, null);
     }
 
     @Override
@@ -86,4 +94,11 @@ public class TrafficLightImpl implements TrafficLight {
             throw new TrafficLightException(e);
         }
     }
+    
+    public void dumpDebugInformation() throws IOException {
+        LOGGER.debug("Manufacturer:\t{}", hidDevice.getManufacturerString());
+        LOGGER.debug("Product:\t\t{}", hidDevice.getProductString());
+        LOGGER.debug("SerialNumber:\t{}", hidDevice.getSerialNumberString());
+    }
+
 }

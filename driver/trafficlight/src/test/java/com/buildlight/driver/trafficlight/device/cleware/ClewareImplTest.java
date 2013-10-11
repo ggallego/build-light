@@ -1,14 +1,15 @@
-package com.buildlight.driver.trafficlight.driver;
+package com.buildlight.driver.trafficlight.device.cleware;
 
-import com.buildlight.driver.trafficlight.driver.TrafficLight;
-import com.buildlight.driver.trafficlight.driver.TrafficLightException;
-import com.buildlight.driver.trafficlight.driver.TrafficLightImpl;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLightException;
+import com.buildlight.driver.trafficlight.device.cleware.ClewareImpl;
 import com.codeminders.hidapi.HIDDevice;
 import com.codeminders.hidapi.HIDManager;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * @author zutherb
  */
-public class TrafficLightImplTest {
+public class ClewareImplTest {
 
     @Mock
     private HIDManager hidManager;
@@ -32,8 +33,9 @@ public class TrafficLightImplTest {
     @Before
     public void setup() throws IOException {
         initMocks(this);
+        light = new ClewareImpl(hidManager);
         when(hidDevice.write(any(byte[].class))).thenReturn(4);
-        light = new TrafficLightImpl(hidManager, hidDevice);
+        ReflectionTestUtils.setField(light, "hidDevice", hidDevice );
     }
 
     @Test

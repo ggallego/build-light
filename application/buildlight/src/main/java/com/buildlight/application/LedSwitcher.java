@@ -2,7 +2,7 @@ package com.buildlight.application;
 
 import com.buildlight.application.interrogator.BuildInterrogator;
 import com.buildlight.application.interrogator.BuildState;
-import com.buildlight.driver.trafficlight.driver.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

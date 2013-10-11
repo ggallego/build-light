@@ -1,6 +1,6 @@
 package com.buildlight.application.interrogator;
 
-import com.buildlight.driver.trafficlight.driver.Led;
+import com.buildlight.driver.trafficlight.api.Led;
 
 /**
  * @author zutherb

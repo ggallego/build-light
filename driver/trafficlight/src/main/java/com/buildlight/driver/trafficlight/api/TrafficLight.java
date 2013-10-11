@@ -1,4 +1,4 @@
-package com.buildlight.driver.trafficlight.driver;
+package com.buildlight.driver.trafficlight.api;
 
 /**
  * @author zutherb

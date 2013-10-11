@@ -1,6 +1,6 @@
 package com.buildlight.driver.trafficlight.commandline.parser;
 
-import com.buildlight.driver.trafficlight.driver.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

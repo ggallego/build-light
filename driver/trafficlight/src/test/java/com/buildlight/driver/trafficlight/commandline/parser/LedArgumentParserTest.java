@@ -1,11 +1,11 @@
 package com.buildlight.driver.trafficlight.commandline.parser;
 
+import com.buildlight.driver.trafficlight.api.Led;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
 import com.buildlight.driver.trafficlight.commandline.parser.ArgumentBuffer;
 import com.buildlight.driver.trafficlight.commandline.parser.ArgumentParser;
 import com.buildlight.driver.trafficlight.commandline.parser.LedArgumentParser;
 import com.buildlight.driver.trafficlight.commandline.parser.ParserException;
-import com.buildlight.driver.trafficlight.driver.Led;
-import com.buildlight.driver.trafficlight.driver.TrafficLight;
 
 import org.junit.Before;
 import org.junit.Test;

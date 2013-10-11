@@ -1,8 +1,8 @@
 package com.buildlight.driver.trafficlight.gui;
 
-import com.buildlight.driver.trafficlight.driver.Led;
-import com.buildlight.driver.trafficlight.driver.TrafficLight;
-import com.buildlight.driver.trafficlight.driver.TrafficLightFactory;
+import com.buildlight.driver.trafficlight.api.Led;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLightFactory;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
