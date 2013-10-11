@@ -1,19 +1,19 @@
 package com.buildlight.driver.trafficlight.device.cleware;
 
-import com.buildlight.driver.trafficlight.api.Led;
-import com.buildlight.driver.trafficlight.api.TrafficLight;
-import com.buildlight.driver.trafficlight.api.TrafficLightException;
-import com.codeminders.hidapi.HIDDevice;
-import com.codeminders.hidapi.HIDDeviceNotFoundException;
-import com.codeminders.hidapi.HIDManager;
+import static java.lang.String.format;
+
+import java.io.IOException;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
-import static java.lang.String.format;
+import com.buildlight.driver.trafficlight.api.Device;
+import com.buildlight.driver.trafficlight.api.Led;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLightException;
+import com.codeminders.hidapi.HIDDevice;
+import com.codeminders.hidapi.HIDManager;
 
 /**
  * @author zutherb
@@ -36,6 +36,11 @@ public class ClewareImpl implements TrafficLight {
         this.hidDevice = hidManager.openById(VENDOR_ID, PRODUCT_ID, null);
     }
 
+    @Override
+    public Device getDevice() {
+    	return Device.CLEWARE;
+    }
+    
     @Override
     public void switchOn(Led led) {
         try {
@@ -77,11 +82,11 @@ public class ClewareImpl implements TrafficLight {
     }
 
     private byte[] createSwitchOnBuffer(Led led) {
-        return new byte[]{(byte) 0x0, (byte) 0x0, led.getAddress(), (byte) 0x1};
+        return new byte[]{(byte) 0x0, (byte) 0x0, led.getClewareAddress(), (byte) 0x1};
     }
 
     private byte[] createSwitchOffBuffer(Led led) {
-        return new byte[]{(byte) 0x0, (byte) 0x0, led.getAddress(), (byte) 0x0};
+        return new byte[]{(byte) 0x0, (byte) 0x0, led.getClewareAddress(), (byte) 0x0};
     }
 
     @Override

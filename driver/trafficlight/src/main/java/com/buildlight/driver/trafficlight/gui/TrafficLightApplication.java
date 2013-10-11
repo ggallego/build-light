@@ -1,8 +1,7 @@
 package com.buildlight.driver.trafficlight.gui;
 
-import com.buildlight.driver.trafficlight.api.Led;
-import com.buildlight.driver.trafficlight.api.TrafficLight;
-import com.buildlight.driver.trafficlight.api.TrafficLightFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -13,11 +12,16 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.util.StopWatch;
+
+import com.buildlight.driver.trafficlight.api.Led;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLightFactory;
+import com.buildlight.driver.trafficlight.commandline.parser.ParserException;
 
 /**
  * @author zutherb
+ * @author ggallego
  */
 public class TrafficLightApplication extends Application {
 
@@ -41,11 +45,34 @@ public class TrafficLightApplication extends Application {
         TRAFFIC_LIGHT.switchOffAllLeds();
 
         VBox vbox = vBox();
-        vbox.getChildren().addAll(buttonForLed(Led.RED), buttonForLed(Led.YELLOW), buttonForLed(Led.GREEN));
+        vbox.setStyle("-fx-background-color: " + "gray");
 
-        primaryStage.setTitle("Cleware Traffic Light");
+        int hsize = 0;
+        switch (TRAFFIC_LIGHT.getDevice()) {
+		case CLEWARE:
+	        vbox.getChildren().addAll(
+        		buttonForLed(Led.RED), 
+        		buttonForLed(Led.YELLOW), 
+        		buttonForLed(Led.GREEN));
+	        hsize = 300;
+			break;
+        default:
+        	vbox.getChildren().addAll(
+        			buttonForLed(Led.BLUE),
+            		buttonForLed(Led.RED), 
+            		buttonForLed(Led.GREEN),
+        			buttonForLed(Led.AQUA),
+        			buttonForLed(Led.PURPLE),
+        			buttonForLed(Led.YELLOW), 
+        			buttonForLed(Led.WHITE));
+            hsize = 550;
+			break;
+    	}
+        vbox.getChildren().add(buttonKnightRider());
+
+        primaryStage.setTitle("Traffic Light");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(vbox, 290, 250));
+        primaryStage.setScene(new Scene(vbox, 200, hsize));
         primaryStage.show();
     }
 
@@ -64,20 +91,70 @@ public class TrafficLightApplication extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                if (!LED_STATES.get(led)) {
-                    TRAFFIC_LIGHT.switchOn(led);
-                    LED_STATES.put(led, Boolean.TRUE);
-                } else {
-                    TRAFFIC_LIGHT.switchOff(led);
-                    LED_STATES.put(led, Boolean.FALSE);
-                }
+            	switch (TRAFFIC_LIGHT.getDevice()) {
+				case CLEWARE:
+					if (!LED_STATES.get(led)) {
+						TRAFFIC_LIGHT.switchOn(led);
+						LED_STATES.put(led, Boolean.TRUE);
+					} else {
+						TRAFFIC_LIGHT.switchOff(led);
+						LED_STATES.put(led, Boolean.FALSE);
+					}
+					break;
+				default:
+					TRAFFIC_LIGHT.switchOn(led);
+					break;
+            	}
             }
         });
         return redButton;
     }
+    private Button buttonKnightRider() {
+		Button redButton = new Button();
+		redButton.setStyle("-fx-background-color: " + "pink");
+		redButton.setText("KnightRider");
+		redButton.setPrefSize(270, 70);
+		redButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					long executionTime = 0;
+					long sleepTime = 1000;
+					Led[] leds = Led.values();
+					int moveCounter = 0;
+					boolean moveForward = true;
+					StopWatch stopWatch = new StopWatch();
+					while (executionTime == 0
+							|| stopWatch.getTotalTimeMillis() < executionTime) {
+						stopWatch.start();
+						// TRAFFIC_LIGHT.switchOffAllLeds();
+						if (moveForward) {
+							TRAFFIC_LIGHT.switchOn(leds[moveCounter++]);
+						} else {
+							TRAFFIC_LIGHT.switchOn(leds[--moveCounter]);
+						}
+						if (moveCounter == 0) {
+							moveCounter++;
+							moveForward = true;
+						}
+						if (moveCounter == leds.length) {
+							moveForward = false;
+							--moveCounter;
+						}
+						Thread.sleep(sleepTime);
+						stopWatch.stop();
+					}
+				} catch (Exception e) {
+					throw new ParserException(e);
+				}
+			}
+		});
+		return redButton;
+	}
 
     @Override
     public void stop() throws Exception {
+    	TRAFFIC_LIGHT.switchOffAllLeds();
         TRAFFIC_LIGHT.close();
         System.exit(0);
     }

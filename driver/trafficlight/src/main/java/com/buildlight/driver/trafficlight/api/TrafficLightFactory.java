@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.buildlight.driver.trafficlight.device.cleware.ClewareImpl;
+import com.buildlight.driver.trafficlight.device.dreamcheeky.DreamCheekyImpl;
 import com.codeminders.hidapi.ClassPathLibraryLoader;
 import com.codeminders.hidapi.HIDManager;
 
@@ -50,8 +50,8 @@ public class TrafficLightFactory {
         try {
             ClassPathLibraryLoader.loadNativeHIDLibrary();
             HIDManager hidManager = HIDManager.getInstance();
-            //return new DreamCheekyImpl(hidManager);
-            return new ClewareImpl(hidManager);
+            return new DreamCheekyImpl(hidManager);
+            //return new ClewareImpl(hidManager);
         } catch (IOException e) {
             throw new TrafficLightException("Traffic light USB device could not be found.", e);
         }

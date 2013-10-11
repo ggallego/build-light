@@ -15,6 +15,11 @@ public class TrafficLightMock implements TrafficLight {
     }
 
     @Override
+    public Device getDevice() {
+        return Device.MOCK;
+    }
+
+    @Override
     public void switchOn(Led led) {
         LOGGER.info("Switch on Led {}", led.name());
     }
