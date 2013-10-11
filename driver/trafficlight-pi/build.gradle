@@ -1,8 +1,8 @@
 apply plugin: 'application'
 
-mainClassName = "com.buildlight.application.commandline.Runner"
+mainClassName = "com.buildlight.driver.trafficlight.commandline.Runner"
 
-group = 'com.buildlight.application'
+group = 'com.buildlight.driver'
 
 sourceSets {
     main {
@@ -24,16 +24,16 @@ configurations {
 }
 
 dependencies {
-    compile project(":app:buildlight")
-    compile project(":driver:cleware-pi")
+    compile project(":driver:trafficlight")
+    compile files("lib/hidapi-pi-1.1.jar")
 }
 
 jar {
     manifest {
         attributes(
-                "Implementation-Title": "Build Light Application for Raspberry PI",
+                "Implementation-Title": "Traffic Light Driver for Raspberry PI: Cleware and DreamCheeky",
                 "Implementation-Version": version,
-                "Author": "Bernd Zuther <bernd.zuther@me.com>",
+                "Author": "Bernd Zuther <bernd.zuther@me.com>, Glauber Gallego <glauber.gallego@gmail.com>",
                 "Main-Class": mainClassName
         )
     }
