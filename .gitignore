@@ -10,3 +10,6 @@ out/
 .gradle/
 
 buildlight.properties
+/.settings
+/.classpath
+/.project
