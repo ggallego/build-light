@@ -63,7 +63,7 @@ public class DreamCheekyImplTest {
     @Test
     public void testSwitchOff() throws Exception {
         light.switchOffAllLeds();
-        verify(hidDevice, times(0)).write(new byte[]{0x00, 0x0, 0x0, 0x0});
+        verify(hidDevice, times(1)).write(new byte[]{0x00, 0x0, 0x0, 0x0});
     }
 
     @Test(expected = TrafficLightException.class)
