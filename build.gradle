@@ -10,8 +10,8 @@ tasks.withType(Compile) {
 
 group = 'com.buildlight'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
@@ -24,7 +24,7 @@ props.each({ project.ext[it.key] = it.value })
 ext {
     slf4jVersion = "1.7.5"
     logbackVersion = "1.0.13"
-    groovyVersion = "2.1.6"
+    groovyVersion = "2.1.7"
     junitVersion = "4.11"
     mockitoVersion = "1.9.5"
     jettyVersion = "8.1.12.v20130726"
@@ -39,9 +39,6 @@ configurations {
     all*.exclude module: "commons-logging"
     all*.exclude module: "log4j"
 }
-
-
-
 
 subprojects {
     apply plugin: 'java'

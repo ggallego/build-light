@@ -34,12 +34,16 @@ public enum Led {
         this.dreamCheekyAdress = dreamCheekyAdress;
     }
 
-    public byte getClewareAddress() {
-        return clewareAdress;
-    }
-
-    public byte getDreamCheekAddress() {
-        return dreamCheekyAdress;
+    public byte getAddress(Device device) {
+    	switch (device) {
+		case CLEWARE:
+			return clewareAdress;
+		case DREAMCHEEKY:
+			return dreamCheekyAdress;
+		default:
+			break;
+		}
+        return (byte) 0x00;
     }
 
     public static Led valueOfIgnoreCaseOrNull(String name) {

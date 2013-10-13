@@ -1,21 +1,23 @@
 package com.buildlight.driver.trafficlight.device.cleware;
 
-import com.buildlight.driver.trafficlight.api.TrafficLight;
-import com.buildlight.driver.trafficlight.api.TrafficLightException;
-import com.buildlight.driver.trafficlight.device.cleware.ClewareImpl;
-import com.codeminders.hidapi.HIDDevice;
-import com.codeminders.hidapi.HIDManager;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.io.IOException;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
+import com.buildlight.driver.trafficlight.api.TrafficLightException;
+import com.codeminders.hidapi.HIDDevice;
+import com.codeminders.hidapi.HIDManager;
 
 /**
  * @author zutherb
@@ -46,7 +48,8 @@ public class ClewareImplTest {
         verify(hidDevice, times(1)).write(new byte[]{0x0, 0x0, 0x12, 1});
     }
 
-    @Test(expected = TrafficLightException.class)
+    @SuppressWarnings("unchecked")
+	@Test(expected = TrafficLightException.class)
     public void testSwitchOnWithException() throws Exception {
         when(hidDevice.write(any(byte[].class))).thenThrow(IOException.class);
         light.switchOnAllLeds();
@@ -60,6 +63,7 @@ public class ClewareImplTest {
         verify(hidDevice, times(1)).write(new byte[]{0x0, 0x0, 0x12, 0});
     }
 
+    @SuppressWarnings("unchecked")
     @Test(expected = TrafficLightException.class)
     public void testSwitchOffWithException() throws Exception {
         when(hidDevice.write(any(byte[].class))).thenThrow(IOException.class);

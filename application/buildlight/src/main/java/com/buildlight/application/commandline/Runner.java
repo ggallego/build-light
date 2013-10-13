@@ -1,15 +1,17 @@
 package com.buildlight.application.commandline;
 
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import static com.buildlight.application.ConfigurationFile.BAMBOO_DEFAULT_CONFIGURATION;
+import static com.buildlight.application.ConfigurationFile.CONFIGURATION_FILE;
+import static com.buildlight.application.ConfigurationFile.JENKINS_DEFAULT_CONFIGURATION;
 
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
 
-import static com.buildlight.application.ConfigurationFile.*;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 /**
@@ -22,8 +24,8 @@ public final class Runner {
     private Runner() {/* NOOP */}
 
     public static void main(String[] args) throws IOException {
-        LOGGER.info("Build Light - Build Watch Application, Maintained by B. Zuther.\n" +
-                "Send bug reports using https://github.com/zutherb/build-light/issues\n");
+        System.out.println("\tBuild Light - Build Watch Application, Maintained by B. Zuther.");
+        System.out.println("\tSend bug reports using https://github.com/zutherb/build-light/issues");
         if (CONFIGURATION_FILE.exists()) {
             Properties properties = new Properties();
             properties.load(FileUtils.openInputStream(CONFIGURATION_FILE));
@@ -42,15 +44,15 @@ public final class Runner {
                 LOGGER.info("Type 'exit' and press enter to exit the application:");
                 next = scanner.next();
             }
-            context.destroy();
+            context.close();
             scanner.close();
             System.exit(0);
         } else {
-            LOGGER.error(String.format("Please create %s\n", CONFIGURATION_FILE.getAbsoluteFile()));
-            LOGGER.error("Jenkins example:\n");
-            LOGGER.error(JENKINS_DEFAULT_CONFIGURATION);
-            LOGGER.error("Bamboo example:\n");
-            LOGGER.error(BAMBOO_DEFAULT_CONFIGURATION);
+        	System.out.println("\tPlease create {"+CONFIGURATION_FILE.getAbsoluteFile()+"}");
+        	System.out.println("\tJenkins example:");
+        	System.out.println(JENKINS_DEFAULT_CONFIGURATION);
+        	System.out.println("\tBamboo example:");
+        	System.out.println(BAMBOO_DEFAULT_CONFIGURATION);
         }
     }
 }

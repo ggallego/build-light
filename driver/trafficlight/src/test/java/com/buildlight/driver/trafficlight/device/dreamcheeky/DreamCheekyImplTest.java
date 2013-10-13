@@ -17,7 +17,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.buildlight.driver.trafficlight.api.Led;
 import com.buildlight.driver.trafficlight.api.TrafficLight;
 import com.buildlight.driver.trafficlight.api.TrafficLightException;
-import com.buildlight.driver.trafficlight.device.cleware.ClewareImpl;
 import com.codeminders.hidapi.HIDDevice;
 import com.codeminders.hidapi.HIDManager;
 
@@ -54,7 +53,8 @@ public class DreamCheekyImplTest {
         verify(hidDevice, times(1)).write(new byte[]{0x01, 0x0, 0x0, 0x0});
     }
 
-    @Test(expected = TrafficLightException.class)
+    @SuppressWarnings("unchecked")
+	@Test(expected = TrafficLightException.class)
     public void testSwitchOnWithException() throws Exception {
         when(hidDevice.write(any(byte[].class))).thenThrow(IOException.class);
         light.switchOnAllLeds();
@@ -66,7 +66,8 @@ public class DreamCheekyImplTest {
         verify(hidDevice, times(1)).write(new byte[]{0x00, 0x0, 0x0, 0x0});
     }
 
-    @Test(expected = TrafficLightException.class)
+    @SuppressWarnings("unchecked")
+	@Test(expected = TrafficLightException.class)
     public void testSwitchOffWithException() throws Exception {
         when(hidDevice.write(any(byte[].class))).thenThrow(IOException.class);
         light.switchOffAllLeds();

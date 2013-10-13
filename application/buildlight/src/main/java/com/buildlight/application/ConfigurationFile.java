@@ -74,16 +74,16 @@ public class ConfigurationFile {
         StringBuffer buffer = new StringBuffer();
         switch (serverType) {
             case Jenkins:
-                buffer.append("build.server=" + serverType.name() + "\n");
-                buffer.append("jenkins.server.url=" + jenkinsUrl.getValue() + "\n");
-                buffer.append("jenkins.build.name=" + jenkinsBuildName.getValue() + "\n");
+                buffer.append("\t\tbuild.server=" + serverType.name() + "\n");
+                buffer.append("\t\tjenkins.server.url=" + jenkinsUrl.getValue() + "\n");
+                buffer.append("\t\tjenkins.build.name=" + jenkinsBuildName.getValue());
                 break;
             case Bamboo:
-                buffer.append("build.server=" + serverType.name() + "\n");
-                buffer.append("bamboo.server.url=" + bambooUrl.getValue() + "\n");
-                buffer.append("bamboo.build.key=" + bambooBuildKey.getValue() + "\n");
-                buffer.append("bamboo.username=" + bambooUsername.getValue() + "\n");
-                buffer.append("bamboo.password=" + bambooPassword.getValue() + "\n");
+                buffer.append("\t\tbuild.server=" + serverType.name() + "\n");
+                buffer.append("\t\tbamboo.server.url=" + bambooUrl.getValue() + "\n");
+                buffer.append("\t\tbamboo.build.key=" + bambooBuildKey.getValue() + "\n");
+                buffer.append("\t\tbamboo.username=" + bambooUsername.getValue() + "\n");
+                buffer.append("\t\tbamboo.password=" + bambooPassword.getValue());
                 break;
             default:
                 throw new NotImplementedException("Known build server type");

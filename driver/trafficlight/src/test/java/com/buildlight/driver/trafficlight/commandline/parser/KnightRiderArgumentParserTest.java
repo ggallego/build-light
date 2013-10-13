@@ -51,9 +51,13 @@ public class KnightRiderArgumentParserTest {
     @Test
     public void testExecute() throws Exception {
         parser.execute(buffer);
-        verify(light, atLeastOnce()).switchOn(Led.RED);
-        verify(light, atLeastOnce()).switchOn(Led.YELLOW);
+        verify(light, atLeastOnce()).switchOn(Led.AQUA);
+        verify(light, atLeastOnce()).switchOn(Led.BLUE);
         verify(light, atLeastOnce()).switchOn(Led.GREEN);
-        verify(light, atLeast(5)).switchOffAllLeds();
+        verify(light, atLeastOnce()).switchOn(Led.PURPLE);
+        verify(light, atLeastOnce()).switchOn(Led.RED);
+        verify(light, atLeastOnce()).switchOn(Led.WHITE);
+        verify(light, atLeastOnce()).switchOn(Led.YELLOW);        
+        verify(light, atLeastOnce()).switchOffAllLeds();
     }
 }

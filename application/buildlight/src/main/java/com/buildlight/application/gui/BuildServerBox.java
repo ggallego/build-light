@@ -18,11 +18,10 @@ public class BuildServerBox extends HBox {
     }
 
     private Node buildServerComboBox() {
-        ComboBox buildServerComboBox = new ComboBox();
-        buildServerComboBox.getItems().addAll(BuildServerType.values());
+        ComboBox<BuildServerType> buildServerComboBox = new ComboBox<BuildServerType>();
+        buildServerComboBox.getItems().addAll((BuildServerType[])BuildServerType.values());
         buildServerComboBox.valueProperty().setValue(BuildServerType.values()[0]);
         buildServerComboBox.valueProperty().addListener(new ChangeListener<BuildServerType>() {
-
             @Override
             public void changed(ObservableValue observableValue, BuildServerType oldValue, BuildServerType currentValue) {
                 buildServerComboBoxChanged(currentValue);

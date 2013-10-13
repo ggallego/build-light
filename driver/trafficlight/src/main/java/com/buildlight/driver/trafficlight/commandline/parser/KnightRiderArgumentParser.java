@@ -1,5 +1,6 @@
 package com.buildlight.driver.trafficlight.commandline.parser;
 
+import com.buildlight.driver.trafficlight.api.Device;
 import com.buildlight.driver.trafficlight.api.Led;
 import com.buildlight.driver.trafficlight.api.TrafficLight;
 
@@ -38,9 +39,12 @@ public class KnightRiderArgumentParser extends AbstractArgumentParser {
             int moveCounter = 0;
             boolean moveForward = true;
             StopWatch stopWatch = new StopWatch();
+        	trafficLight().switchOffAllLeds();
             while (executionTimeReached(stopWatch)) {
                 stopWatch.start();
-                trafficLight().switchOffAllLeds();
+                if (Device.CLEWARE.equals(trafficLight().getDevice())) {
+                	trafficLight().switchOffAllLeds();
+                }
                 if (moveForward) {
                     trafficLight().switchOn(leds[moveCounter++]);
                 } else {
@@ -57,6 +61,7 @@ public class KnightRiderArgumentParser extends AbstractArgumentParser {
                 Thread.sleep(sleepTime);
                 stopWatch.stop();
             }
+        	trafficLight().switchOffAllLeds();
         } catch (Exception e) {
             throw new ParserException(e);
         }

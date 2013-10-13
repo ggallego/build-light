@@ -24,11 +24,11 @@ public final class Runner {
             applicationContext.getBean(CommandLineParser.class).execute(buffer);
         } catch (Exception e) {
             LOGGER.error("ERROR", e);
-            applicationContext.destroy();
+            applicationContext.close();
             System.exit(-1);
         } finally {
             if (applicationContext.isRunning()) {
-                applicationContext.destroy();
+                applicationContext.close();
             }
             System.exit(0);
         }

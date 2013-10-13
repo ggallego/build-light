@@ -3,7 +3,7 @@ import ch.qos.logback.core.ConsoleAppender
 
 import static ch.qos.logback.classic.Level.INFO
 
-def defaultPattern = "%msg%n"
+def defaultPattern = "%d{HH:mm:ss.SSS} [%thread] [%-5level] - %msg%n"
 
 appender("stdout", ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
@@ -11,5 +11,5 @@ appender("stdout", ConsoleAppender) {
     }
 }
 
-root(DEBUG, ["stdout"])
+root(INFO, ["stdout"])
 

@@ -1,11 +1,12 @@
 package com.buildlight.driver.trafficlight.commandline.parser;
 
-import com.buildlight.driver.trafficlight.api.TrafficLight;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.buildlight.driver.trafficlight.api.Led;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
 
 @Component
 public class TestArgumentParser extends AbstractArgumentParser {
@@ -26,9 +27,12 @@ public class TestArgumentParser extends AbstractArgumentParser {
     @Override
     public void execute(ArgumentBuffer buffer) {
         try {
-            trafficLight().switchOnAllLeds();
-            Thread.sleep(1000);
-            trafficLight().switchOffAllLeds();
+        	trafficLight().switchOffAllLeds();
+            for (Led led : Led.values()) {
+            	trafficLight().switchOn(led);
+            	Thread.sleep(1000);
+            }
+        	trafficLight().switchOffAllLeds();
         } catch (Exception e) {
             LOGGER.error("'" + TEST + "' argument could not be parsed correct or executed", e);
         }

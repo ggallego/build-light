@@ -12,12 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import org.springframework.util.StopWatch;
-
 import com.buildlight.driver.trafficlight.api.Led;
 import com.buildlight.driver.trafficlight.api.TrafficLight;
 import com.buildlight.driver.trafficlight.api.TrafficLightFactory;
-import com.buildlight.driver.trafficlight.commandline.parser.ParserException;
+import com.buildlight.driver.trafficlight.commandline.parser.KnightRiderArgumentParser;
 
 /**
  * @author zutherb
@@ -56,16 +54,18 @@ public class TrafficLightApplication extends Application {
         		buttonForLed(Led.GREEN));
 	        hsize = 300;
 			break;
+		case DREAMCHEEKY:
+			vbox.getChildren().addAll(
+					buttonForLed(Led.BLUE),
+					buttonForLed(Led.RED), 
+					buttonForLed(Led.GREEN),
+					buttonForLed(Led.AQUA),
+					buttonForLed(Led.PURPLE),
+					buttonForLed(Led.YELLOW), 
+					buttonForLed(Led.WHITE));
+			hsize = 550;
+			break;
         default:
-        	vbox.getChildren().addAll(
-        			buttonForLed(Led.BLUE),
-            		buttonForLed(Led.RED), 
-            		buttonForLed(Led.GREEN),
-        			buttonForLed(Led.AQUA),
-        			buttonForLed(Led.PURPLE),
-        			buttonForLed(Led.YELLOW), 
-        			buttonForLed(Led.WHITE));
-            hsize = 550;
 			break;
     	}
         vbox.getChildren().add(buttonKnightRider());
@@ -101,8 +101,10 @@ public class TrafficLightApplication extends Application {
 						LED_STATES.put(led, Boolean.FALSE);
 					}
 					break;
-				default:
+				case DREAMCHEEKY:
 					TRAFFIC_LIGHT.switchOn(led);
+					break;
+				default:
 					break;
             	}
             }
@@ -117,36 +119,7 @@ public class TrafficLightApplication extends Application {
 		redButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				try {
-					long executionTime = 0;
-					long sleepTime = 1000;
-					Led[] leds = Led.values();
-					int moveCounter = 0;
-					boolean moveForward = true;
-					StopWatch stopWatch = new StopWatch();
-					while (executionTime == 0
-							|| stopWatch.getTotalTimeMillis() < executionTime) {
-						stopWatch.start();
-						// TRAFFIC_LIGHT.switchOffAllLeds();
-						if (moveForward) {
-							TRAFFIC_LIGHT.switchOn(leds[moveCounter++]);
-						} else {
-							TRAFFIC_LIGHT.switchOn(leds[--moveCounter]);
-						}
-						if (moveCounter == 0) {
-							moveCounter++;
-							moveForward = true;
-						}
-						if (moveCounter == leds.length) {
-							moveForward = false;
-							--moveCounter;
-						}
-						Thread.sleep(sleepTime);
-						stopWatch.stop();
-					}
-				} catch (Exception e) {
-					throw new ParserException(e);
-				}
+				new KnightRiderArgumentParser(TRAFFIC_LIGHT).execute(null);
 			}
 		});
 		return redButton;

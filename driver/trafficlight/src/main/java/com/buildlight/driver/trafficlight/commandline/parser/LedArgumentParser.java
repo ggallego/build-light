@@ -1,19 +1,16 @@
 package com.buildlight.driver.trafficlight.commandline.parser;
 
-import com.buildlight.driver.trafficlight.api.Led;
-import com.buildlight.driver.trafficlight.api.TrafficLight;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.buildlight.driver.trafficlight.api.Led;
+import com.buildlight.driver.trafficlight.api.TrafficLight;
 
 /**
  * @author zutherb
  */
 @Component
 public class LedArgumentParser extends AbstractArgumentParser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LedArgumentParser.class);
 
     @Autowired
     public LedArgumentParser(TrafficLight trafficLight) {
