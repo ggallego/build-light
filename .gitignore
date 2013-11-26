@@ -13,3 +13,4 @@ buildlight.properties
 /.settings
 /.classpath
 /.project
+/bin

@@ -29,7 +29,8 @@ public class BambooBuildInterrogator implements BuildInterrogator {
     }
 
     @Override
-    public BuildState getCurrentBuildState() {
+	public BuildState getCurrentBuildState() {
+    	LOGGER.info("getPlans");
         BambooPlanResponse planResponse = bambooRepository.getPlanResponse();
         if (planResponse.isBuilding()) {
         	LOGGER.debug("Plan is building");
@@ -39,7 +40,7 @@ public class BambooBuildInterrogator implements BuildInterrogator {
         List<Result> results = bambooResultResponse.getResults().getResults();
         Result result = results.get(0);
         LOGGER.debug("Plan result is " + result);
-        switch (result.getState()) {
+        switch (result.getState()) {	
             case Successful:
                 return BuildState.Successful;
             default:
